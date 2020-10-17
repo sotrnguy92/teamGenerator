@@ -65,6 +65,35 @@ const engineerQuestions =[
         message: `Would you like to add another engineer?`,
         choices: [`yes`, `no`],
     },
+];
+
+const internQuestions = [
+    {
+        type: 'input',
+        name: 'internName',
+        message: `What is your intern's name?`
+    },
+    {
+        type: 'input',
+        name: 'internId',
+        message: `What is your intern's ID?`
+    },
+    {
+        type: 'input',
+        name: 'internEmail',
+        message: `What is your intern's email?`
+    },
+    {
+        type: 'input',
+        name: 'internSchool',
+        message: `What is your intern's School?`
+    },
+    {
+        type: 'list',
+        name: 'addIntern',
+        message: `Would you like to add another intern?`,
+        choices: [`yes`, `no`],
+    },
 ]
 
 inquirer.prompt(questions)
@@ -73,9 +102,24 @@ inquirer.prompt(questions)
         if (addEngineer === "yes"){
             buildEngineer();
         }else{
-            console.log('time to add an intern');
+            inquirer.prompt(
+                {
+                    type: 'list',
+                    name: 'addIntern',
+                    message: `Would you like to add an intern?`,
+                    choices: [`yes`, `no`],
+                },
+            )
+                .then(answers => {
+                    let addIntern = answers.addIntern;
+                    if (addIntern === "yes"){
+                        buildIntern();
+                    }
+                });
         }
     })
+
+
 
 const buildEngineer = () => {
         inquirer.prompt(engineerQuestions)
@@ -84,9 +128,32 @@ const buildEngineer = () => {
                 if (addEngineer === "yes"){
                     buildEngineer();
                 }else{
-                    console.log('time to add an intern');
+                    inquirer.prompt(
+                        {
+                            type: 'list',
+                            name: 'addIntern',
+                            message: `Would you like to add an intern?`,
+                            choices: [`yes`, `no`],
+                        },
+                    )
+                        .then(answers => {
+                            let addIntern = answers.addIntern;
+                            if (addIntern === "yes"){
+                                buildIntern();
+                            }
+                        });
                 }
             });
+};
+
+const buildIntern = () => {
+    inquirer.prompt(internQuestions)
+        .then(answers => {
+            let addIntern = answers.addIntern;
+            if (addIntern === "yes") {
+                buildIntern();
+            }
+        });
 }
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
