@@ -38,9 +38,56 @@ const questions = [
     },
 ];
 
+const engineerQuestions =[
+    {
+        type: 'input',
+        name: 'engineerName',
+        message: `What is your engineer's name?`
+    },
+    {
+        type: 'input',
+        name: 'engineerId',
+        message: `What is your engineer's ID?`
+    },
+    {
+        type: 'input',
+        name: 'engineerEmail',
+        message: `What is your engineer's email?`
+    },
+    {
+        type: 'input',
+        name: 'engineerGit',
+        message: `What is your engineer's github username?`
+    },
+    {
+        type: 'list',
+        name: 'addEngineer',
+        message: `Would you like to add another engineer?`,
+        choices: [`yes`, `no`],
+    },
+]
 
 inquirer.prompt(questions)
-    .then((answers)=>{})
+    .then((answers)=>{
+        let addEngineer = answers.addEngineer;
+        if (addEngineer === "yes"){
+            buildEngineer();
+        }else{
+            console.log('time to add an intern');
+        }
+    })
+
+const buildEngineer = () => {
+        inquirer.prompt(engineerQuestions)
+            .then((answers)=>{
+                let addEngineer = answers.addEngineer;
+                if (addEngineer === "yes"){
+                    buildEngineer();
+                }else{
+                    console.log('time to add an intern');
+                }
+            });
+}
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
