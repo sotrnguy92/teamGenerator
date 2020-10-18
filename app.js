@@ -28,7 +28,7 @@ const questions = [
     },
     {
         type: 'input',
-        name: 'managerOffice',
+        name: 'officeNumber',
         message: `What is your manager's office number?`
     },
     {
@@ -99,7 +99,9 @@ const internQuestions = [
 
 inquirer.prompt(questions)
     .then((answers)=>{
-
+        const manager = new Manager (answers.managerName, answers.managerId, answers.managerEmail, answers.officeNumber)
+        employees.push(manager);
+        console.log(employees);
         let addEngineer = answers.addEngineer;
         if (addEngineer === "yes"){
             buildEngineer();
@@ -126,6 +128,8 @@ inquirer.prompt(questions)
 const buildEngineer = () => {
         inquirer.prompt(engineerQuestions)
             .then((answers)=>{
+                const engineer = new Engineer (answers.engineerName, answers.engineerId, answers.engineerEmail, answers.engineerGit)
+                employees.push(engineer);
                 let addEngineer = answers.addEngineer;
                 if (addEngineer === "yes"){
                     buildEngineer();
@@ -142,8 +146,10 @@ const buildEngineer = () => {
                             let addIntern = answers.addIntern;
                             if (addIntern === "yes"){
                                 buildIntern();
+                            }else{
+                                buildHtml(employees)
                             }
-                        });
+                        })
                 }
             });
 };
@@ -151,12 +157,24 @@ const buildEngineer = () => {
 const buildIntern = () => {
     inquirer.prompt(internQuestions)
         .then(answers => {
+            const intern = new Intern (answers.internName, answers.internId, answers.internEmail, answers.internSchool)
+            employees.push(intern);
             let addIntern = answers.addIntern;
             if (addIntern === "yes") {
                 buildIntern();
+            }else{
+                buildHtml(employees);
             }
         });
 }
+
+const buildHtml = (emp) => {
+    const htmlOut = render(emp);
+    fs.writeFileSync(outputPath, htmlOut, 'utf-8')
+    console.log(htmlOut);
+}
+
+
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
 
