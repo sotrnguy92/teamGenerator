@@ -101,7 +101,6 @@ inquirer.prompt(questions)
     .then((answers)=>{
         const manager = new Manager (answers.managerName, answers.managerId, answers.managerEmail, answers.officeNumber)
         employees.push(manager);
-        console.log(employees);
         let addEngineer = answers.addEngineer;
         if (addEngineer === "yes"){
             buildEngineer();
@@ -171,7 +170,6 @@ const buildIntern = () => {
 const buildHtml = (emp) => {
     const htmlOut = render(emp);
     fs.writeFileSync(outputPath, htmlOut, 'utf-8')
-    console.log(htmlOut);
 }
 
 
